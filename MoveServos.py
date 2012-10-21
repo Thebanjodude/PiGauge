@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# modeline to setup editor for vim (needs 'set modeline' to be in ~/.vimrc)
+# vim: expandtab:ts=4:sw=4
 
 import getopt
 import math
@@ -47,14 +49,16 @@ def main(argv):
                 chart_num = int(arg)
                 if not 1 <= chart_num <= 5:
                     print 'ChartNumber must be between 1 and 5 inclusive.'
-                config = config | GOOD_CHART
+                else:
+                    config = config | GOOD_CHART
             elif opt in ("-p", "--ChartPosition"):
                 chart_percent = int(arg)
                 if not 0 <= chart_percent <= 100:
                     print 'ChartPosition must be between an integer between \n\
                            0 and 100 inclusive.'
-                config = config | GOOD_POS
-                chart_pos = transfer(chart_percent)
+                else:
+                    config = config | GOOD_POS
+                    chart_pos = transfer(chart_percent)
             elif opt in ("-a", "--GetAllPos"):
                 for chart_num in range(1, 6):
                     print_position(chart_num)
