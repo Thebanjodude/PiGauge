@@ -12,7 +12,7 @@ sys.path.append('/usr/local/lib/python2.7/site-packages')
 from Adafruit_I2C import Adafruit_I2C
 from Adafruit_PWM_Servo_Driver import PWM
 
-# Return Codes
+# config codes
 HELP        = 0x01
 ALL_SERVOS  = 0x02
 GOOD_CHART  = 0x04
