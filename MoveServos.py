@@ -4,14 +4,17 @@ import getopt
 import math
 import sys
 import time
+
+# Point to the Adafruit libs/classes
+sys.path.append('/usr/local/lib/python2.7/site-packages')
 from Adafruit_I2C import Adafruit_I2C
 from Adafruit_PWM_Servo_Driver import PWM
 
-# Initialise the PWM device using the default address
+# Initialize the PWM device using the default address
 chip = Adafruit_I2C(0x40)
 pwm = PWM(0x40)  
 
-# Imperically derived values for servo pulse times to achieve specific
+# Empirically derived values for servo pulse times to achieve specific
 # positions. These are run through a linear regression.
 servo_data = [(0.0, 170.0), 
               (25.0, 280.0), 
@@ -63,7 +66,7 @@ def move_servos(chart_num, chart_pos):
 
     
 def print_position(chart_num):
-    # Add two unsigned byets off the I2C bus. Shift the second register
+    # Add two unsigned bytes off the I2C bus. Shift the second register
     # because it is the MSB.
     chart_pos = (chip.readU8(8 + chart_num * 4) + 
                 (chip.readU8(9 + chart_num * 4) << 8)) 
