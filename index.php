@@ -24,7 +24,6 @@ if ((empty($_POST['ChartNum_Write'])) || ($_POST['ChartPos_Write'] < 0) || ($_PO
 if ($post_form) {
 	echo '<body>';
 	exec('./MoveServos.py -a 2>&1',$output_array,$exit_code);		
-	//echo '<pre>'; var_dump($output_array); echo '</pre>'; 
 	if ($exit_code> 0){
 		echo "Failed to run python script";
 	}else{
@@ -43,10 +42,13 @@ if ($post_form) {
 	for ($z=0; $z<5; $z++) { $mood=$mood_array[$z][0]; $mood_spot=$mood_array[$z][1]; echo "<option value=\"$mood_spot\">$mood</option>";}
 	echo '</select><input type="submit" /></form>' ; 
 }else{ 
-	echo '<head><meta http-equiv="refresh" content="3"></head>';
-	$command = "python scripts/Servo_Example_Transfer_Int.py -c " . $_POST['ChartNum_Write'] . " -p " . $_POST['ChartPos_Write'];
-        exec($command,$output_array_2,$exit_code_2);
-	echo "Changing chart ". $chart_array[$_POST['ChartNum_Write']-1] ." to $_POST[ChartPos_Write] <p>";
+	$command = "./MoveServos.py -c " . $_POST['ChartNum_Write'] . " -p " . $_POST['ChartPos_Write'];
+        exec($command,$set_chart_output,$set_chart_exit_code);
+	if ($set_chart_exit_code > 0) { 
+		echo 'Failed to run python script...'; 
+	} else {
+		echo '<head><meta http-equiv="refresh" content="3"></head>' . "Changing chart ". $chart_array[$_POST['ChartNum_Write']-1] ." to $_POST[ChartPos_Write] <p>";
+	}
 	echo '<a href="'. $_SERVER['PHP_SELF'] .'">Return to front page</a>';
 }
 
