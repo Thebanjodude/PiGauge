@@ -19,7 +19,10 @@ $mood_array = array(
 
 /* hide the form if it has just been filled out, no need to see it a second time */
 $post_form=False ;
-if ((empty($_POST['ChartNum_Write'])) || ($_POST['ChartPos_Write'] < 0) || ($_POST['ChartPos_Write'] > 100) ){ $post_form=True ; }
+if ((empty($_POST['ChartNum_Write'])) 
+	|| ($_POST['ChartPos_Write'] < 0) 
+	|| ($_POST['ChartPos_Write'] > 100) )
+	{ $post_form=True ; }
 
 if ($post_form) {
 	echo '<body>';
