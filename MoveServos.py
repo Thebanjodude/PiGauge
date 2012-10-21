@@ -47,13 +47,13 @@ def main(argv):
                 chart_num = int(arg)
                 if not 1 <= chart_num <= 5:
                     print 'ChartNumber must be between 1 and 5 inclusive.'
-                    config = config | GOOD_CHART
+                config = config | GOOD_CHART
             elif opt in ("-p", "--ChartPosition"):
                 chart_percent = int(arg)
                 if not 0 <= chart_percent <= 100:
                     print 'ChartPosition must be between an integer between \n\
                            0 and 100 inclusive.'
-                    config = config | GOOD_POS
+                config = config | GOOD_POS
                 chart_pos = transfer(chart_percent)
             elif opt in ("-a", "--GetAllPos"):
                 for chart_num in range(1, 6):
@@ -62,7 +62,7 @@ def main(argv):
     except:
         print_help()
         sys.exit(1)
-       
+
     if config == GOOD_CHART | GOOD_POS :
         move_servos(chart_num, chart_pos)
         sys.exit(0)
