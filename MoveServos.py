@@ -98,15 +98,17 @@ def linear_regression(data):
         
         
 def print_help_and_exit(return_code):
+    script_name = 'Ima_script'
+    #script_name = sys.argv[0]
     print """
-Usage: python scriptname.py [options]
+Usage: python {} [options]
 Option:
  -a               Gives the positions of all the servos (0 - 100%)
  -c <num>         Use position argument for chart <num> (1 - 5, integer only)
  -p <num>         Set chart to position <num>% (0 - 100, integer only)
  --ChartNum <num> Same as -c <num>
  --ChartPos <num> Same as -p <num>
-    """
+    """.format(sys.argv[0])
     sys.exit(0)
     
 xfer_m, xfer_b = linear_regression(servo_data)  
