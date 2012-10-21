@@ -10,6 +10,13 @@ sys.path.append('/usr/local/lib/python2.7/site-packages')
 from Adafruit_I2C import Adafruit_I2C
 from Adafruit_PWM_Servo_Driver import PWM
 
+# Return Codes
+HELP        = 0x01
+ALL_SERVOS  = 0x02
+GOOD_CHART  = 0x04
+GOOD_POS    = 0x08
+ERROR       = 0x0f
+
 # Initialize the PWM device using the default address
 chip = Adafruit_I2C(0x40)
 pwm = PWM(0x40)  
@@ -26,39 +33,48 @@ def main(argv):
     chart_num = None
     chart_pos = None
     read = False
+    config = 0
     try:
-        opts, args = getopt.getopt(argv, "hc:p:a", ["ChartNumber=",
+        opts, args = getopt.getopt(argv, "c:p:ah", ["ChartNumber=",
                                                     "ChartPosition=",
-                                                    "ReadChart=",
-                                                    "GetAllPos="])
+                                                    "GetAllPos",
+                                                    "help"])
         for opt, arg in opts:
-            if opt == '-h':
-                print_help_and_exit(0)
+            if opt in ('-h', "--help"):
+                print_help()
+                config = config | HELP
             elif opt in ("-c", "--ChartNumber"):    
                 chart_num = int(arg)
                 if not 1 <= chart_num <= 5:
                     print 'ChartNumber must be between 1 and 5 inclusive.'
-                    sys.exit(1)
+                    config = config | GOOD_CHART
             elif opt in ("-p", "--ChartPosition"):
                 chart_percent = int(arg)
                 if not 0 <= chart_percent <= 100:
                     print 'ChartPosition must be between an integer between \n\
                            0 and 100 inclusive.'
-                    sys.exit(1)
+                    config = config | GOOD_POS
                 chart_pos = transfer(chart_percent)
             elif opt in ("-a", "--GetAllPos"):
                 for chart_num in range(1, 6):
                     print_position(chart_num)
-                sys.exit(0)
+                config = config | ALL_SERVOS
     except:
-        print_help_and_exit(1)
-            
-    if chart_num is not None and chart_pos is not None:
+        print_help()
+        sys.exit(1)
+       
+    if config == GOOD_CHART | GOOD_POS :
         move_servos(chart_num, chart_pos)
-    else:
-        print_help_and_exit(1)
+        sys.exit(0)
+    elif (config == ALL_SERVOS) or (config == HELP) :
+        # all is well, exit cleanly
+        sys.exit(0)
+    else :
+        # probably only set one of the options... print help and exit
+        print_help()
+        sys.exit(1)
 
-    
+
 def move_servos(chart_num, chart_pos):
     pwm.setPWM(chart_num, 0, chart_pos)
     time.sleep(0.1)
@@ -97,9 +113,7 @@ def linear_regression(data):
     return m, b
         
         
-def print_help_and_exit(return_code):
-    script_name = 'Ima_script'
-    #script_name = sys.argv[0]
+def print_help():
     print """
 Usage: python {} [options]
 Option:
@@ -109,7 +123,7 @@ Option:
  --ChartNum <num> Same as -c <num>
  --ChartPos <num> Same as -p <num>
     """.format(sys.argv[0])
-    sys.exit(0)
-    
+
+
 xfer_m, xfer_b = linear_regression(servo_data)  
 main(sys.argv[1:])
