@@ -90,7 +90,8 @@ def print_position(chart_num):
     # because it is the MSB.
     chart_pos = (chip.readU8(8 + chart_num * 4) + 
                 (chip.readU8(9 + chart_num * 4) << 8)) 
-    print 'Servo', chart_num, 'is at', inverse_transfer(chart_pos)
+    #print 'Servo', chart_num, 'is at', inverse_transfer(chart_pos)
+    print inverse_transfer(chart_pos)
     
     
 def transfer(chart_percent):
