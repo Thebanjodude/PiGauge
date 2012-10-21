@@ -23,7 +23,8 @@ if ((empty($_POST['ChartNum_Write'])) || ($_POST['ChartPos_Write'] < 0) || ($_PO
 
 if ($post_form) {
 	echo '<body>';
-	exec('python scripts/Servo_Example_Transfer_Int.py -a 2>&1',$output_array,$exit_code);		
+	exec('./MoveServos.py -a 2>&1',$output_array,$exit_code);		
+	//echo '<pre>'; var_dump($output_array); echo '</pre>'; 
 	if ($exit_code> 0){
 		echo "Failed to run python script";
 	}else{
