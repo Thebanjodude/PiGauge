@@ -96,7 +96,7 @@ run_test()
 if [ ! -d "$TEST_CASE_DIR" ] ||  
 	[ ! "`ls $TEST_CASE_DIR/*.$TEST_SUFFIX >/dev/null 2>&1; echo $?`" == "0" ] || 
 	[ ! -e "$PHP_SCRIPT" ] || 
-	[ ! -x "$PYTHON_SCRIPT" ]
+	[ ! -e "$PYTHON_SCRIPT" ]
 then
 	echo "Please run from the directory where PiGauge files are located and "
 	echo "put the test files into the $TEST_CASE_DIR directory"

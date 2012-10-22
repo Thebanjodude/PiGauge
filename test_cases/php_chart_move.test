@@ -1,24 +1,24 @@
 # setup the servos for testing
 
-./MoveServos.py -c 1 -p 0  >/dev/null
-./MoveServos.py -c 2 -p 0  >/dev/null
-./MoveServos.py -c 3 -p 0  >/dev/null
-./MoveServos.py -c 4 -p 0  >/dev/null
-./MoveServos.py -c 5 -p 0  >/dev/null
+python MoveServos.py -c 1 -p 0  >/dev/null
+python MoveServos.py -c 2 -p 0  >/dev/null
+python MoveServos.py -c 3 -p 0  >/dev/null
+python MoveServos.py -c 4 -p 0  >/dev/null
+python MoveServos.py -c 5 -p 0  >/dev/null
 
 # now for the actual test
 wget localhost/PiGauge/index.php --output-document - --quiet --post-data "ChartNum_Write=1&ChartPos_Write=25"
 # check the output from python
-./MoveServos.py -a
+python MoveServos.py -a
 #and so on and so forth
 wget localhost/PiGauge/index.php --output-document - --quiet --post-data "ChartNum_Write=2&ChartPos_Write=25"
-./MoveServos.py -a
+python MoveServos.py -a
 wget localhost/PiGauge/index.php --output-document - --quiet --post-data "ChartNum_Write=3&ChartPos_Write=25"
-./MoveServos.py -a
+python MoveServos.py -a
 wget localhost/PiGauge/index.php --output-document - --quiet --post-data "ChartNum_Write=4&ChartPos_Write=25"
-./MoveServos.py -a
+python MoveServos.py -a
 wget localhost/PiGauge/index.php --output-document - --quiet --post-data "ChartNum_Write=4&ChartPos_Write=25"
-./MoveServos.py -a
+python MoveServos.py -a
 
 # and one last check to ensure the page has been updating
 wget localhost/PiGauge/index.php --output-document - --quiet

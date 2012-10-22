@@ -1,1 +1,1 @@
-./MoveServos.py -p 42
+python MoveServos.py -p 42

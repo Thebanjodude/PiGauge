@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # modeline to setup editor for vim (needs 'set modeline' to be in ~/.vimrc)
 # vim: expandtab:ts=4:sw=4
 

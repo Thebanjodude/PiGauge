@@ -1,4 +1,4 @@
-./MoveServos.py -c 6 -p 10
-./MoveServos.py -c 0 -p 22
-./MoveServos.py -c 100 -p 3
-./MoveServos.py -c  -p 3
+python MoveServos.py -c 6 -p 10
+python MoveServos.py -c 0 -p 22
+python MoveServos.py -c 100 -p 3
+python MoveServos.py -c  -p 3

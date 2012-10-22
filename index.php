@@ -26,7 +26,7 @@ if ((empty($_POST['ChartNum_Write']))
 
 if ($post_form) {
 	echo '<body>';
-	exec('./MoveServos.py -a 2>&1',$output_array,$exit_code);		
+	exec('python MoveServos.py -a 2>&1',$output_array,$exit_code);		
 	if ($exit_code> 0){
 		echo "Failed to run python script";
 	}else{
@@ -45,7 +45,7 @@ if ($post_form) {
 	for ($z=0; $z<5; $z++) { $mood=$mood_array[$z][0]; $mood_spot=$mood_array[$z][1]; echo "<option value=\"$mood_spot\">$mood</option>";}
 	echo '</select><input type="submit" /></form>' . "\n" ; 
 }else{ 
-	$command = "./MoveServos.py -c " . $_POST['ChartNum_Write'] . " -p " . $_POST['ChartPos_Write'];
+	$command = "python MoveServos.py -c " . $_POST['ChartNum_Write'] . " -p " . $_POST['ChartPos_Write'];
         exec($command,$set_chart_output,$set_chart_exit_code);
 	if ($set_chart_exit_code > 0) { 
 		echo 'Failed to run python script...'; 
