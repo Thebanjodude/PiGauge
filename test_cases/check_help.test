@@ -1,0 +1,3 @@
+# check to ensure that help still works
+./MoveServos.py -h
+./MoveServos.py --help

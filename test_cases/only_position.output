@@ -1,0 +1,9 @@
+
+Usage: python ./MoveServos.py [options]
+Option:
+ -a               Gives the positions of all the servos (0 - 100%)
+ -c <num>         Use position argument for chart <num> (1 - 5, integer only)
+ -p <num>         Set chart to position <num>% (0 - 100, integer only)
+ --ChartNum <num> Same as -c <num>
+ --ChartPos <num> Same as -p <num>
+    

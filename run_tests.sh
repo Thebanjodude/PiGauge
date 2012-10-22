@@ -4,6 +4,9 @@
 # tests should be stored in the $TEST_CASE_DIR
 #   tests should end with $TEST_SUFFIX
 #   expected results should end with $OUT_SUFFIX
+#
+# running with --output will create output files for
+# tests that do not have them
 
 # cleanup on a CTRL-C
 trap clean_exit SIGINT
@@ -34,6 +37,25 @@ clean_exit()
 }
 
 
+create_output_files()
+{
+	echo "Checking for the existance of output files"
+	for TEST_CASE in ${TEST_CASE_DIR}/*$TEST_SUFFIX
+	do
+		TEST=`echo $TEST_CASE | sed s/\.$TEST_SUFFIX$//`
+		OUTPUT=$TEST.output
+		echo -n "For test - $TEST:  "
+		if [ ! -e $OUTPUT ]
+		then
+			echo "Missing  -  generating output file for $TEST"
+			. $TEST_CASE > $OUTPUT
+		else
+			echo "Present"
+		fi
+	done
+}
+
+
 run_test()
 {	# run tests
 	NUM_TEST=0
@@ -43,6 +65,13 @@ run_test()
 		NUM_TEST=$(( NUM_TEST + 1))
 		TEST=`echo $TEST_CASE | sed s/\.$TEST_SUFFIX$//`
 		OUTPUT=$TEST.output
+
+		if [ ! -e $OUTPUT ]
+		then #no output file to check against
+			echo "$FAIL--- no output file for $TEST --- Unable to run test!"
+			continue
+		fi
+
 		echo -en " Running    - Test: $TEST\r"
 		
 		#run the test and save the results for comparison
@@ -73,6 +102,12 @@ then
 	echo "put the test files into the $TEST_CASE_DIR directory"
 	echo "Test files should be named name_of_test.$TEST_SUFFIX"
 	EXIT_CODE=$EXIT_CODE_BAD_SETUP
+	clean_exit
+fi
+
+if [ "$1" = "--outputs" ]
+then
+	create_output_files
 	clean_exit
 fi
 
