@@ -1,5 +1,15 @@
 #!/bin/bash
 
+ROOT_UID=0
+
+#check to see if we are running as root
+if [ `id -u` != $ROOT_UID ]
+then
+	echo "Please run as root or sudo $0"
+else
+	chown `whoami`:www-data -R *
+fi
+
 chmod 644 index.php
 chmod 644 MoveServos.py
 chmod 600 README.md
