@@ -1,0 +1,10 @@
+# setup the servos for testing
+
+./MoveServos.py -c 1 -p 0  >/dev/null
+./MoveServos.py -c 2 -p 0  >/dev/null
+./MoveServos.py -c 3 -p 0  >/dev/null
+./MoveServos.py -c 4 -p 0  >/dev/null
+./MoveServos.py -c 5 -p 0  >/dev/null
+
+# now for the actual test
+wget localhost/PiGauge/index.php --output-document - --quiet

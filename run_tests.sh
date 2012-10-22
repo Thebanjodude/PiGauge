@@ -72,7 +72,7 @@ run_test()
 			continue
 		fi
 
-		echo -en " Running    - Test: $TEST\r"
+		echo -en "   Running  - Test: $TEST\r"
 		
 		#run the test and save the results for comparison
 		RESULTS=$(. $TEST_CASE)

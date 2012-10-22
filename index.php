@@ -31,7 +31,7 @@ if ($post_form) {
 		echo "Failed to run python script";
 	}else{
 		for ($x=0; $x<=4; $x++) {
-			echo $chart_array[$x] . " is at " . $output_array[$x] . "%<br>" ;
+			echo $chart_array[$x] . " is at " . $output_array[$x] . "%<br>\n" ;
 		}
 	}
 	echo '<hr>';
@@ -40,10 +40,10 @@ if ($post_form) {
 		echo '<form action="'. $_SERVER['PHP_SELF'] .'"method="post">';
 		echo "<input type=\"hidden\" name=\"ChartNum_Write\" value=\"$y\">$chart_name = <input type=\"text\" name=\"ChartPos_Write\" /><input type=\"submit\"/></form>";
 	}
-	echo '<form action="'. $_SERVER['PHP_SELF'] .'"method="post">';
+	echo '<form action="'. $_SERVER['PHP_SELF'] .'"method="post">'. "\n";
 	echo '<input type="hidden" name="ChartNum_Write" value="5">'. $chart_array[4] .' = <select name="ChartPos_Write">';
 	for ($z=0; $z<5; $z++) { $mood=$mood_array[$z][0]; $mood_spot=$mood_array[$z][1]; echo "<option value=\"$mood_spot\">$mood</option>";}
-	echo '</select><input type="submit" /></form>' ; 
+	echo '</select><input type="submit" /></form>' . "\n" ; 
 }else{ 
 	$command = "./MoveServos.py -c " . $_POST['ChartNum_Write'] . " -p " . $_POST['ChartPos_Write'];
         exec($command,$set_chart_output,$set_chart_exit_code);
@@ -57,3 +57,4 @@ if ($post_form) {
 
 echo'</body></html>';
 ?>
+
