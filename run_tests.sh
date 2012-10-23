@@ -34,6 +34,13 @@ UNDERLINE_OFF=`tput rmul`
 
 IFS=''
 
+
+capture_settings()
+{
+	CURRENT_SETUP=`i2cdump -y 0 0x40 b | head -n  6 | tail -n 5 | sed -e 's/^..: //' -e 's/  .*$//' -e 's/ XX//g' | sed ':a;N;$!ba;s/\n/ /g'`
+}
+
+
 clean_exit()
 { 	
 	exit $EXIT_CODE
@@ -55,6 +62,17 @@ create_output_files()
 		else
 			echo "Present"
 		fi
+	done
+}
+
+
+restore_settings()
+{
+	x=0
+	echo $CURRENT_SETUP | tr ' ' '\n' | while read value
+	do
+		address=$(( x++ ))
+		i2cset -y 0 0x40 `printf "0x%02x" $address` 0x$value
 	done
 }
 
@@ -121,7 +139,9 @@ then
 fi
 
 # We are ready... so do it.
+capture_settings
 run_test
+restore_settings
 clean_exit
 
 #### We should never get this far into the script ####
