@@ -13,7 +13,10 @@ trap clean_exit SIGINT
 
 PYTHON_SCRIPT="MoveServos.py"
 PHP_SCRIPT="index.php"
-TEST_CASE_DIR="./test_cases"
+TEST_BASE="test_cases"
+TEST_CASE_DIR="$TEST_BASE/enabled-tests"
+TEST_OUTPUT_DIR="$TEST_BASE/outputs"
+TEST_REPO_DIR="$TEST_BASE/available-tests"
 
 TEST_SUFFIX="test"
 OUT_SUFFIX="output"
@@ -42,8 +45,8 @@ create_output_files()
 	echo "Checking for the existance of output files"
 	for TEST_CASE in ${TEST_CASE_DIR}/*$TEST_SUFFIX
 	do
-		TEST=`echo $TEST_CASE | sed s/\.$TEST_SUFFIX$//`
-		OUTPUT=$TEST.output
+		TEST=`echo $TEST_CASE | sed s/\.$TEST_SUFFIX$// | sed 's/.*\///'`
+		OUTPUT=$TEST_OUTPUT_DIR/$TEST.output
 		echo -n "For test - $TEST:  "
 		if [ ! -e $OUTPUT ]
 		then
@@ -63,8 +66,8 @@ run_test()
 	for TEST_CASE in ${TEST_CASE_DIR}/*$TEST_SUFFIX
 	do
 		NUM_TEST=$(( NUM_TEST + 1))
-		TEST=`echo $TEST_CASE | sed s/\.$TEST_SUFFIX$//`
-		OUTPUT=$TEST.output
+		TEST=`echo $TEST_CASE | sed s/\.$TEST_SUFFIX$// | sed 's/.*\///'`
+		OUTPUT=$TEST_OUTPUT_DIR/$TEST.output
 
 		if [ ! -e $OUTPUT ]
 		then #no output file to check against
@@ -105,6 +108,12 @@ then
 	clean_exit
 fi
 
+if [ $# -gt 1 ]
+then
+	echo "only one option accepted at a time"
+	clean_exit
+fi
+
 if [ "$1" = "--outputs" ]
 then
 	create_output_files
@@ -119,5 +128,5 @@ clean_exit
 exit $EXIT_CODE_SOMETHINGS_GONE_WRONG
 
 ############## NOTES #################################
-# php testing
-wget localhost/PiGauge/index.php --output-document - --quiet  --post-data "text=$1" | php -R 'echo strip_tags($argn)."\n";'
+# enable all tests
+for i in available-tests/* ; do ln ../$i `echo $i | sed 's/available-tests/enabled-tests/'` -s; done
