@@ -22,6 +22,10 @@ ERROR       = 0x0f
 chip = Adafruit_I2C(0x40)
 pwm = PWM(0x40)  
 
+
+#Set Prescale frequency
+pwm.setPWMFreq(60)
+
 # Empirically derived values for servo pulse times to achieve specific
 # positions. These are run through a linear regression.
 servo_data = [(0.0, 170.0), 
@@ -88,7 +92,7 @@ def print_position(chart_num):
     # Add two unsigned bytes off the I2C bus. Shift the second register
     # because it is the MSB.
     chart_pos = (chip.readU8(8 + chart_num * 4) + 
-                (chip.readU8(9 + chart_num * 4) << 8)) 
+               ((chip.readU8(9 + chart_num * 4) << 8)))
     #print 'Servo', chart_num, 'is at', inverse_transfer(chart_pos)
     print inverse_transfer(chart_pos)
     
