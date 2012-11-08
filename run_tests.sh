@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # a script to run test cases against PiGauge
 # tests should be stored in the $TEST_CASE_DIR
